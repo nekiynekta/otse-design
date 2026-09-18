@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/custom.js"
+  [headers.values]
+    Cache-Control = "public, max-age=60, must-revalidate"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/custom.css"
+  [headers.values]
+    Cache-Control = "public, max-age=60, must-revalidate"
+    Access-Control-Allow-Origin = "*"

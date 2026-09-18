@@ -1,6 +1,6 @@
 # Otse.design — custom code
 
-Vanilla JS/CSS для Webflow-сайту otse.design. Деплой автоматичний через GitHub → Vercel.
+Vanilla JS/CSS для Webflow-сайту otse.design. Деплой автоматичний через GitHub → Netlify.
 
 ## Файли
 
@@ -11,8 +11,16 @@ Vanilla JS/CSS для Webflow-сайту otse.design. Деплой автома�
 
 Файли статичні, білд-степ не потрібен. Редагуй `custom.js` / `custom.css` напряму.
 
+### Тестування в реальному часі (без push/деплою)
+
+```bash
+netlify dev
+```
+
+Видасть публічний HTTPS-лінк (`https://xxxx.netlify.live` або схожий). Тимчасово підстав його у Webflow Custom Code замість продакшн-лінка — зміни в локальних файлах відображаються на опублікованому Webflow-сайті одразу після збереження. Коли тестування завершено — поверни продакшн-лінк (`otse-design.app` / `*.netlify.app`) у Webflow.
+
 ## Деплой
 
-Push у `main` → Vercel автоматично деплоїть у production. Cache-Control виставлено на 60с, тож зміни на опублікованому Webflow-сайті з'являються протягом ~1 хв після деплою.
+Push у `main` → Netlify автоматично деплоїть у production. Cache-Control виставлено на 60с (`netlify.toml`), тож зміни на опублікованому Webflow-сайті з'являються протягом ~1 хв після деплою.
 
-Для тестування перед мержем у `main` використовуй Vercel Preview Deployments: тимчасово підстав preview-URL у Webflow Custom Code, перевір, потім поверни продакшн-URL.
+Для перегляду перед мержем у `main` можна також використовувати Netlify Deploy Previews (автоматичні для кожного PR).
