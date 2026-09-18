@@ -1,0 +1,9 @@
+{
+  "name": "otse-design",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Custom JS/CSS for Webflow, deployed via Netlify",
+  "scripts": {
+    "dev": "netlify dev --live"
+  }
+}
