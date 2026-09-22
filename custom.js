@@ -102,5 +102,17 @@
     if (target) open(target, false);
   }
 
+  document.addEventListener('click', function (e) {
+    if (tabletDown.matches) return;
+    const closeBtn = e.target.closest('[data-popup-btn="close"]');
+    if (!closeBtn) return;
+    const holder = closeBtn.closest('.service-popup-holder');
+    if (!holder || !holder.classList.contains('active')) return;
+    const current = getActiveContext();
+    if (!current || current.holder !== holder) return;
+    close(current);
+    current.trigger.focus();
+  });
+
   openFirstByDefault();
 })();
