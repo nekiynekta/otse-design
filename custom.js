@@ -36,12 +36,13 @@
     context.trigger.setAttribute('aria-expanded', 'false');
   }
 
-  function open(context) {
+  function open(context, focusPopup) {
+    if (focusPopup === undefined) focusPopup = true;
     context.holder.classList.add('active');
     context.trigger.classList.add('active');
     context.popup.setAttribute('aria-hidden', 'false');
     context.trigger.setAttribute('aria-expanded', 'true');
-    context.popup.focus();
+    if (focusPopup) context.popup.focus();
   }
 
   function handleTriggerClick(trigger) {
@@ -77,4 +78,17 @@
     close(current);
     current.trigger.focus();
   });
+
+  const tabletDown = window.matchMedia('(max-width: 991px)');
+
+  function openFirstByDefault() {
+    if (!tabletDown.matches) return;
+    if (getActiveContext()) return;
+    const firstTrigger = list.querySelector('[data-service-trigger]');
+    if (!firstTrigger) return;
+    const target = resolveFromTrigger(firstTrigger);
+    if (target) open(target, false);
+  }
+
+  openFirstByDefault();
 })();
