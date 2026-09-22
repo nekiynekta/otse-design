@@ -4,6 +4,8 @@
   const list = document.querySelector('.services-list');
   if (!list) return;
 
+  const tabletDown = window.matchMedia('(max-width: 991px)');
+
   function resolveFromTrigger(trigger) {
     const targetId = trigger.getAttribute('data-service-trigger');
     const popup = targetId ? document.getElementById(targetId) : null;
@@ -42,7 +44,12 @@
     context.trigger.classList.add('active');
     context.popup.setAttribute('aria-hidden', 'false');
     context.trigger.setAttribute('aria-expanded', 'true');
-    if (focusPopup) context.popup.focus();
+    if (focusPopup) {
+      context.popup.style.setProperty('outline', 'none', 'important');
+      context.holder.style.setProperty('outline', 'none', 'important');
+      context.popup.focus({ preventScroll: true });
+      context.popup.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   function handleTriggerClick(trigger) {
@@ -52,9 +59,14 @@
     const current = getActiveContext();
     const reopeningSame = current && current.trigger === trigger;
 
+    if (reopeningSame) {
+      if (!tabletDown.matches) close(current);
+      return;
+    }
+
     if (current) close(current);
 
-    if (!reopeningSame) open(target);
+    open(target);
   }
 
   list.addEventListener('click', function (e) {
@@ -64,6 +76,7 @@
 
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
+    if (tabletDown.matches) return;
     const current = getActiveContext();
     if (!current) return;
     close(current);
@@ -71,6 +84,7 @@
   });
 
   document.addEventListener('click', function (e) {
+    if (tabletDown.matches) return;
     const current = getActiveContext();
     if (!current) return;
     if (current.holder.contains(e.target)) return;
@@ -78,8 +92,6 @@
     close(current);
     current.trigger.focus();
   });
-
-  const tabletDown = window.matchMedia('(max-width: 991px)');
 
   function openFirstByDefault() {
     if (!tabletDown.matches) return;

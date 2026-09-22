@@ -8,3 +8,14 @@
         color: white;
     }
 }
+
+[data-service-trigger],
+[data-service-trigger] *,
+[data-service-popup],
+[data-service-popup] *,
+.service-popup-holder,
+.service-popup-holder * {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
