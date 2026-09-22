@@ -31,12 +31,14 @@
 
   function close(context) {
     context.holder.classList.remove('active');
+    context.trigger.classList.remove('active');
     context.popup.setAttribute('aria-hidden', 'true');
     context.trigger.setAttribute('aria-expanded', 'false');
   }
 
   function open(context) {
     context.holder.classList.add('active');
+    context.trigger.classList.add('active');
     context.popup.setAttribute('aria-hidden', 'false');
     context.trigger.setAttribute('aria-expanded', 'true');
     context.popup.focus();
