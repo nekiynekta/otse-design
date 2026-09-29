@@ -5,6 +5,27 @@
   if (!list) return;
 
   const tabletDown = window.matchMedia('(max-width: 991px)');
+  const timelines = new WeakMap(); // .service-popup-holder -> gsap timeline
+
+  function getTimeline(context) {
+    if (!window.gsap) return null;
+    let tl = timelines.get(context.holder);
+    if (tl) return tl;
+
+    const labels = context.holder.querySelectorAll('.s-popup-label-w');
+    if (!labels.length) return null;
+
+    tl = gsap.timeline({ paused: true }).to(labels, {
+      scale: 1,
+      duration: 0.4,
+      delay: 0.3,
+      stagger: 0.08,
+      ease: 'power1.out',
+    });
+
+    timelines.set(context.holder, tl);
+    return tl;
+  }
 
   function resolveFromTrigger(trigger) {
     const targetId = trigger.getAttribute('data-service-trigger');
@@ -36,6 +57,9 @@
     context.trigger.classList.remove('active');
     context.popup.setAttribute('aria-hidden', 'true');
     context.trigger.setAttribute('aria-expanded', 'false');
+
+    const tl = timelines.get(context.holder);
+    if (tl) tl.pause(0);
   }
 
   function open(context, focusPopup) {
@@ -44,6 +68,10 @@
     context.trigger.classList.add('active');
     context.popup.setAttribute('aria-hidden', 'false');
     context.trigger.setAttribute('aria-expanded', 'true');
+
+    const tl = getTimeline(context);
+    if (tl) tl.play(0);
+
     if (focusPopup) {
       context.popup.style.setProperty('outline', 'none', 'important');
       context.holder.style.setProperty('outline', 'none', 'important');
